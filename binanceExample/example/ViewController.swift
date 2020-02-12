@@ -26,7 +26,8 @@ class ViewController: UIViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification), name: NSNotification.Name(rawValue: KSDidEnterBackgroundNotificationKey), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification), name: NSNotification.Name(rawValue: KSWillEnterForegroundNotificationKey), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(handleNotification), name: NSNotification.Name(rawValue: KSReachabilityConnectedNotificationKey), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleNotification), name: NSNotification.Name(rawValue:    KSReachabilityConnectedNotificationKey), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleNotification), name: NSNotification.Name(rawValue:    KSReachabilityDisConnectedNotificationKey), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification), name: NSNotification.Name(rawValue: KSWillMoveToPageNotificationKey), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification), name: NSNotification.Name(rawValue: KSDidMoveToPageNotificationKey), object: nil)
         
@@ -97,7 +98,6 @@ extension ViewController: WebSocketDelegate {
         case .disconnected(let reason, let code):
             isConnected = false
             print("websocket is disconnected: \(reason) with code: \(code)")
-            socket.connect()
         case .text(let string):
             let valuse = try? string.asJSONToDictionary()
             switch (valuse!["stream"]) as! String {
@@ -105,14 +105,14 @@ extension ViewController: WebSocketDelegate {
                 try? self.decoderBookTicker(data: (valuse?.toData())!) { (bookTickers, error) in
                     if error == nil {
                         self.child_1?.books = bookTickers
-                        NotificationCenter.default.post(name: Notification.Name(rawValue: KSBookTickerUpdateNotificationKey), object: nil)
+                        self.throttle(threshold: 0.3, postKey: KSBookTickerUpdateNotificationKey)
                     }
                 }
             case "btcusdt@trade":
                 try? self.decoderTrade(data: (valuse?.toData())!, handler: { (tradestream, error) in
                     if error == nil {
                         self.child_2?.trades = tradestream
-                        NotificationCenter.default.post(name: Notification.Name(rawValue: KSTradeUpdateNotificationKey), object: nil)
+                        self.throttle(threshold: 0.25, postKey: KSTradeUpdateNotificationKey)
                     }
                 })
             case "btcusdt@depth":
@@ -169,6 +169,32 @@ extension ViewController: WebSocketDelegate {
         let model = try? JSONDecoder().decode(DepthStream.self, from: data)
         handler(model, nil)
     }
+    
+    func postNotification(key: String) {
+        NotificationCenter.default.post(name: Notification.Name(rawValue: key), object: nil)
+    }
+    
+    func throttle(threshold: TimeInterval, postKey: String) {
+        var last: CFAbsoluteTime = 0
+        var timer: DispatchSourceTimer?
+        let current = CFAbsoluteTimeGetCurrent();
+        if current >= last + threshold {
+            self.postNotification(key: postKey)
+            last = current
+        } else {
+            if timer != nil {
+                timer!.cancel()
+            }
+
+            timer = DispatchSource.makeTimerSource()
+            timer!.setEventHandler {
+                self.postNotification(key: postKey)
+            }
+
+            timer!.schedule(deadline: .now() + .milliseconds(Int(threshold * 1000)))
+            timer!.activate()
+        }
+    }
 }
 
 
@@ -213,11 +239,11 @@ extension ViewController: CAPSPageMenuDelegate {
     }
     
     func willMoveToPage(_ controller: UIViewController, index: Int) {
-        print("order book page")
+        self.postNotification(key: KSWillMoveToPageNotificationKey)
     }
     
     func didMoveToPage(_ controller: UIViewController, index: Int) {
-        print("market history page")
+        self.postNotification(key: KSDidMoveToPageNotificationKey)
     }
 }
 

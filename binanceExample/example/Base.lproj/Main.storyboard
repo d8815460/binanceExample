@@ -18,17 +18,16 @@
                         <color key="backgroundColor" red="0.066666666669999999" green="0.08235294118" blue="0.1058823529" alpha="0.84705882349999995" colorSpace="calibratedRGB"/>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <navigationItem key="navigationItem" title="BTC / USDT" id="dWY-2b-1xz">
-                        <barButtonItem key="leftBarButtonItem" title="Disconnect" id="xOU-3X-sEd">
-                            <color key="tintColor" red="0.4392156862745098" green="0.48627450980392156" blue="0.5490196078431373" alpha="0.84705882352941175" colorSpace="calibratedRGB"/>
-                            <connections>
-                                <action selector="disconnect:" destination="BYZ-38-t0r" id="2S6-Pl-MzE"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="BTC / USDT" id="dWY-2b-1xz"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <barButtonItem title="Disconnect" id="xOU-3X-sEd">
+                    <color key="tintColor" red="0.4392156862745098" green="0.48627450980392156" blue="0.5490196078431373" alpha="0.84705882352941175" colorSpace="calibratedRGB"/>
+                    <connections>
+                        <action selector="disconnect:" destination="BYZ-38-t0r" id="2S6-Pl-MzE"/>
+                    </connections>
+                </barButtonItem>
             </objects>
             <point key="canvasLocation" x="1042.0289855072465" y="120.53571428571428"/>
         </scene>
@@ -42,39 +41,39 @@
                         <color key="backgroundColor" red="0.066666666669999999" green="0.08235294118" blue="0.1058823529" alpha="0.84705882349999995" colorSpace="calibratedRGB"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="OrderBookCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="OrderBookCell" id="UND-3A-g3N" customClass="OrderBookCell" customModule="example" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="414" height="44"/>
+                                <rect key="frame" x="0.0" y="28" width="414" height="44.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="UND-3A-g3N" id="GBd-O8-Xab">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="44.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10000.0000" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cx2-9a-ZY9">
-                                            <rect key="frame" x="20" y="14.5" width="69" height="15"/>
+                                            <rect key="frame" x="20" y="14.5" width="69" height="15.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10000.0000" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EqK-FB-8VB">
-                                            <rect key="frame" x="209" y="14.5" width="69" height="15"/>
+                                            <rect key="frame" x="209" y="14.5" width="69" height="15.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <color key="textColor" systemColor="systemPinkColor" red="1" green="0.1764705882" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10000.0000" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dFs-qr-vAN">
-                                            <rect key="frame" x="325" y="14.5" width="69" height="15"/>
+                                            <rect key="frame" x="325" y="14.5" width="69" height="15.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FJi-dI-I9b">
-                                            <rect key="frame" x="206.5" y="0.0" width="1" height="44"/>
+                                            <rect key="frame" x="206.5" y="0.0" width="1" height="44.5"/>
                                             <color key="backgroundColor" red="0.066666666669999999" green="0.08235294118" blue="0.1058823529" alpha="0.84705882349999995" colorSpace="calibratedRGB"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="1" id="zEI-hZ-JsF"/>
                                             </constraints>
                                         </view>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10000.0000" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4eA-bp-XAW">
-                                            <rect key="frame" x="132" y="14.5" width="69" height="15"/>
+                                            <rect key="frame" x="132" y="14.5" width="69" height="15.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <color key="textColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
