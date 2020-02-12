@@ -1,0 +1,6 @@
+framework module CAPSPageMenu {
+  umbrella header "CAPSPageMenu-umbrella.h"
+
+  export *
+  module * { export * }
+}

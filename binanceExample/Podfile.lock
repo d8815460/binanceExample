@@ -1,0 +1,32 @@
+PODS:
+  - Alamofire (4.9.1)
+  - CAPSPageMenu (1.0.0)
+  - PickerController (0.1.2):
+    - SwiftyJSON (~> 3.0)
+  - ReachabilitySwift (3)
+  - SwiftyJSON (3.1.4)
+
+DEPENDENCIES:
+  - Alamofire
+  - CAPSPageMenu
+  - PickerController
+  - ReachabilitySwift (~> 3)
+
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - Alamofire
+    - CAPSPageMenu
+    - PickerController
+    - ReachabilitySwift
+    - SwiftyJSON
+
+SPEC CHECKSUMS:
+  Alamofire: 85e8a02c69d6020a0d734f6054870d7ecb75cf18
+  CAPSPageMenu: ae022598eeb48dd512ee6d69a33e866a1e6ec166
+  PickerController: 56538c631937bde88c8b9fec8657b4116eb7d4fd
+  ReachabilitySwift: f5b9bb30a0777fac8f09ce8b067e32faeb29bb64
+  SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
+
+PODFILE CHECKSUM: fdb5cda56f8946b8428d66acfc51f199d902586a
+
+COCOAPODS: 1.8.4

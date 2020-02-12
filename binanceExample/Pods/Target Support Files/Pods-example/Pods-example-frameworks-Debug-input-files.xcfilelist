@@ -1,0 +1,6 @@
+${PODS_ROOT}/Target Support Files/Pods-example/Pods-example-frameworks.sh
+${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework
+${BUILT_PRODUCTS_DIR}/CAPSPageMenu/CAPSPageMenu.framework
+${BUILT_PRODUCTS_DIR}/PickerController/PickerController.framework
+${BUILT_PRODUCTS_DIR}/ReachabilitySwift/ReachabilitySwift.framework
+${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework
