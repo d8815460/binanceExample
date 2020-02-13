@@ -21,6 +21,8 @@ class MarketHistoryTableViewController: UITableViewController {
             for aggTrade in aggTrades! {
                 let trade = DisplayTrades(T: aggTrade.T, p: aggTrade.p, q: aggTrade.q)
                 self.displayTrades.append(trade)
+                self.tableView.reloadData()
+                self.tableView.layoutIfNeeded()
             }
         }
     }
