@@ -16,16 +16,6 @@ class OrderBookTableViewController: UITableViewController, OrderBookHeaderCellDe
     private var depthJson: DepthJSON?
     private var minTickSize: String = ""
     private var currentSize: Int?
-    private var throttler: Throttler? = nil
-    public var throttlingInterval: Double? = 0 {
-        didSet {
-            guard let interval = throttlingInterval else {
-                self.throttler = nil
-                return
-            }
-            self.throttler = Throttler(seconds: Int(interval))
-        }
-    }
     
     @IBOutlet weak var headerView: OrderBookHeaderCell!
     
@@ -88,6 +78,8 @@ class OrderBookTableViewController: UITableViewController, OrderBookHeaderCellDe
             self.showGroupPicker(title: "Select Tick Size", groupData: [array], selectedItems: ["\(self.currentSize!)"], onDone: { (selectedIndex, selectedSize) in
                 self.currentSize = selectedIndex[0]
                 self.headerView.sizeButton.setTitle("\(String(describing: self.currentSize!))", for: .normal)
+                self.tableView.reloadData()
+                self.tableView.layoutIfNeeded()
             }) {
                 
             }
