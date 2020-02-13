@@ -155,8 +155,6 @@ extension ViewController: WebSocketDelegate {
         if (timer.userInfo as! String) == KSBookTickerUpdateNotificationKey {
             self.child_1?.books = self.books
             PAPUtility.postNotificationWithKey(key: KSBookTickerUpdateNotificationKey)
-        } else {
-            PAPUtility.postNotificationWithKey(key: KSTradeUpdateNotificationKey)
         }
     }
 }
