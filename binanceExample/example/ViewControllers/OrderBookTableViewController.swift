@@ -35,6 +35,8 @@ class OrderBookTableViewController: UITableViewController, OrderBookHeaderCellDe
         BinanceAPI.sharedInstance.getDepth(limit: 20, symbol: KSSymbolKey) { (depthJson, error) in
             if error == nil {
                 self.depthJson = depthJson
+                self.tableView.reloadData()
+                self.tableView.layoutIfNeeded()
             } else {
                 print("error: \(error?.localizedDescription ?? "error")")
             }

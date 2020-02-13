@@ -117,7 +117,7 @@ extension ViewController: WebSocketDelegate {
                 try? self.decoderTrade(data: (valuse?.toData())!, handler: { (tradestream, error) in
                     if error == nil {
                         self.child_2?.trades = tradestream
-                        self.throttle(threshold: 0.25, postKey: KSTradeUpdateNotificationKey)
+                        self.postNotificationWithKey(key: KSTradeUpdateNotificationKey)
                     }
                 })
             case "btcusdt@depth":
@@ -188,28 +188,6 @@ extension ViewController: WebSocketDelegate {
     
     func postNotificationWithKey(key: String) {
         NotificationCenter.default.post(name: Notification.Name(rawValue: key), object: nil)
-    }
-    
-    func throttle(threshold: TimeInterval, postKey: String) {
-        var last: CFAbsoluteTime = 0
-        var timer: DispatchSourceTimer?
-        let current = CFAbsoluteTimeGetCurrent();
-        if current >= last + threshold {
-            self.postNotificationWithKey(key: postKey)
-            last = current
-        } else {
-            if timer != nil {
-                timer!.cancel()
-            }
-
-            timer = DispatchSource.makeTimerSource()
-            timer!.setEventHandler {
-                self.postNotificationWithKey(key: postKey)
-            }
-
-            timer!.schedule(deadline: .now() + .milliseconds(Int(threshold * 1000)))
-            timer!.activate()
-        }
     }
 }
 
