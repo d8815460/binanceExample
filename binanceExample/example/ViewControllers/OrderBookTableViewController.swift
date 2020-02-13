@@ -11,7 +11,7 @@ import PickerController
 
 class OrderBookTableViewController: UITableViewController, OrderBookHeaderCellDelegate {
     
-    var books: BookTickerStream?
+    var books: [BookTickerStream]?
     var exchangeInfo: ExchangeInfo?
     private var depthJson: DepthJSON?
     private var minTickSize: String = ""
@@ -54,13 +54,16 @@ class OrderBookTableViewController: UITableViewController, OrderBookHeaderCellDe
     @objc func handleNotification(_ notification: Notification) {
         switch notification.name.rawValue {
         case KSBookTickerUpdateNotificationKey :
-            if self.depthJson != nil && (self.books?.data.u)! > (self.depthJson?.lastUpdateId)! {
-                    self.depthJson?.bids.insert([(self.books?.data.b)!, (self.books?.data.B)!], at: 0)
-                    self.depthJson?.asks.insert([(self.books?.data.a)!, (self.books?.data.A)!], at: 0)
+            if self.depthJson != nil && (self.books![0].data.u) > (self.depthJson?.lastUpdateId)! {
+                for book in self.books! {
+                    self.depthJson?.bids.insert([book.data.b, book.data.B], at: 0)
                     self.depthJson?.bids.removeLast()
+                    
+                    self.depthJson?.asks.insert([book.data.a, book.data.A], at: 0)
                     self.depthJson?.asks.removeLast()
-                    self.tableView.reloadData()
-                    self.tableView.layoutIfNeeded()
+                }
+                self.tableView.reloadData()
+                self.tableView.layoutIfNeeded()
             } else {
                 // drop this event
             }

@@ -15,12 +15,13 @@ class ViewController: UIViewController {
     var socket: WebSocket!
     
     private var isConnected = false
+    private var books: [BookTickerStream] = [BookTickerStream]()
     private var depths: DepthStream?
     private var exchangeInfo: ExchangeInfo?
     private var pageMenu: CAPSPageMenu?
     private var child_1:OrderBookTableViewController?
     private var child_2:MarketHistoryTableViewController?
-    
+    private var timer: Timer? // post notify per sec.
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -31,6 +32,7 @@ class ViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification), name: NSNotification.Name(rawValue: KSWillMoveToPageNotificationKey), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification), name: NSNotification.Name(rawValue: KSDidMoveToPageNotificationKey), object: nil)
         
+        self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.postNotification(timer:)), userInfo: KSBookTickerUpdateNotificationKey, repeats: true)
         
         //------------------------------------- WebSocket Start -------------------------------------
         var request = URLRequest(url: URL(string:binanceStreamPath)!)
@@ -47,6 +49,8 @@ class ViewController: UIViewController {
         }
         //------------------------------------- Exchange Info End -------------------------------------
     }
+    
+    
     
     // MARK: Disconnect Action
     
@@ -104,8 +108,8 @@ extension ViewController: WebSocketDelegate {
             case "btcusdt@bookTicker":
                 try? self.decoderBookTicker(data: (valuse?.toData())!) { (bookTickers, error) in
                     if error == nil {
-                        self.child_1?.books = bookTickers
-                        self.throttle(threshold: 0.3, postKey: KSBookTickerUpdateNotificationKey)
+                        self.books.insert(bookTickers!, at: 0)
+                        if self.books.count > 17 { self.books.removeLast() }
                     }
                 }
             case "btcusdt@trade":
@@ -126,6 +130,9 @@ extension ViewController: WebSocketDelegate {
             print("Received data: \(data.count)")
         case .ping(_):
             print("ping")
+            socket.write(string: "pong") {
+                print("sended pong.")
+            }
             break
         case .pong(_):
             print("pong")
@@ -170,7 +177,15 @@ extension ViewController: WebSocketDelegate {
         handler(model, nil)
     }
     
-    func postNotification(key: String) {
+    @objc func postNotification(timer: Timer) {
+        if (timer.userInfo as! String) == KSBookTickerUpdateNotificationKey { self.child_1?.books = self.books
+            NotificationCenter.default.post(name: Notification.Name(rawValue: KSBookTickerUpdateNotificationKey), object: nil)
+        } else {
+            NotificationCenter.default.post(name: Notification.Name(rawValue: KSTradeUpdateNotificationKey), object: nil)
+        }
+    }
+    
+    func postNotificationWithKey(key: String) {
         NotificationCenter.default.post(name: Notification.Name(rawValue: key), object: nil)
     }
     
@@ -179,7 +194,7 @@ extension ViewController: WebSocketDelegate {
         var timer: DispatchSourceTimer?
         let current = CFAbsoluteTimeGetCurrent();
         if current >= last + threshold {
-            self.postNotification(key: postKey)
+            self.postNotificationWithKey(key: postKey)
             last = current
         } else {
             if timer != nil {
@@ -188,7 +203,7 @@ extension ViewController: WebSocketDelegate {
 
             timer = DispatchSource.makeTimerSource()
             timer!.setEventHandler {
-                self.postNotification(key: postKey)
+                self.postNotificationWithKey(key: postKey)
             }
 
             timer!.schedule(deadline: .now() + .milliseconds(Int(threshold * 1000)))
@@ -239,11 +254,11 @@ extension ViewController: CAPSPageMenuDelegate {
     }
     
     func willMoveToPage(_ controller: UIViewController, index: Int) {
-        self.postNotification(key: KSWillMoveToPageNotificationKey)
+        self.postNotificationWithKey(key: KSWillMoveToPageNotificationKey)
     }
     
     func didMoveToPage(_ controller: UIViewController, index: Int) {
-        self.postNotification(key: KSDidMoveToPageNotificationKey)
+        self.postNotificationWithKey(key: KSDidMoveToPageNotificationKey)
     }
 }
 
