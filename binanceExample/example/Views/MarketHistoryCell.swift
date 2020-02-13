@@ -16,9 +16,7 @@ class MarketHistoryCell: UITableViewCell {
     
     var trade: DisplayTrades? {
         didSet {
-            guard let trade = trade else {
-                return
-            }
+            guard let trade = trade else { return }
             let date = NSDate(timeIntervalSince1970: TimeInterval(trade.T/1000))
             let dateFormatter = DateFormatter()
             dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX") as Locale?

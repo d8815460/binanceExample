@@ -80,9 +80,7 @@ class OrderBookTableViewController: UITableViewController, OrderBookHeaderCellDe
                 self.headerView.sizeButton.setTitle("\(String(describing: self.currentSize!))", for: .normal)
                 self.tableView.reloadData()
                 self.tableView.layoutIfNeeded()
-            }) {
-                
-            }
+            })
         }
     }
     

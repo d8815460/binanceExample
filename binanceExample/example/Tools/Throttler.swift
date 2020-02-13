@@ -23,7 +23,6 @@ public class Throttler {
     
     
     func throttle(block: @escaping () -> ()) {
-        
         self.semaphore.sync  { () -> () in
             job.cancel()
             job = DispatchWorkItem(){ [weak self] in
@@ -33,7 +32,6 @@ public class Throttler {
             let delay = Date.second(from: previousRun) > maxInterval ? 0 : maxInterval
             queue.asyncAfter(deadline: .now() + Double(delay), execute: job)
         }
-        
     }
 }
 

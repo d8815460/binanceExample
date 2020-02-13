@@ -32,7 +32,11 @@ class ViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification), name: NSNotification.Name(rawValue: KSWillMoveToPageNotificationKey), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification), name: NSNotification.Name(rawValue: KSDidMoveToPageNotificationKey), object: nil)
         
-        self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.postNotification(timer:)), userInfo: KSBookTickerUpdateNotificationKey, repeats: true)
+        self.timer = Timer.scheduledTimer(timeInterval: 1,
+                                          target: self,
+                                          selector: #selector(self.postNotification(timer:)),
+                                          userInfo: KSBookTickerUpdateNotificationKey,
+                                          repeats: true)
         
         //------------------------------------- WebSocket Start -------------------------------------
         var request = URLRequest(url: URL(string:binanceStreamPath)!)
@@ -48,20 +52,6 @@ class ViewController: UIViewController {
             self.setupPageMenu()
         }
         //------------------------------------- Exchange Info End -------------------------------------
-    }
-    
-    
-    
-    // MARK: Disconnect Action
-    
-    @IBAction func disconnect(_ sender: UIBarButtonItem) {
-        if isConnected {
-            sender.title = "Connect"
-            socket.disconnect()
-        } else {
-            sender.title = "Disconnect"
-            socket.connect()
-        }
     }
     
     // MARK: Notification
@@ -107,21 +97,21 @@ extension ViewController: WebSocketDelegate {
             if valuse!.keys.contains("error") { return }
             switch (valuse!["stream"]) as! String {
             case "btcusdt@bookTicker":
-                try? self.decoderBookTicker(data: (valuse?.toData())!) { (bookTickers, error) in
+                try? PAPUtility.decoderBookTicker(data: (valuse?.toData())!) { (bookTickers, error) in
                     if error == nil {
                         self.books.insert(bookTickers!, at: 0)
                         if self.books.count > 17 { self.books.removeLast() }
                     }
                 }
             case "btcusdt@trade":
-                try? self.decoderTrade(data: (valuse?.toData())!, handler: { (tradestream, error) in
+                try? PAPUtility.decoderTrade(data: (valuse?.toData())!, handler: { (tradestream, error) in
                     if error == nil {
                         self.child_2?.trades = tradestream
-                        self.postNotificationWithKey(key: KSTradeUpdateNotificationKey)
+                        PAPUtility.postNotificationWithKey(key: KSTradeUpdateNotificationKey)
                     }
                 })
             case "btcusdt@depth":
-                try? self.decoderDepth(data: (valuse?.toData())!, handler: { (depthstream, error) in
+                try? PAPUtility.decoderDepth(data: (valuse?.toData())!, handler: { (depthstream, error) in
                     if error == nil { self.depths = depthstream }
                 })
             default:
@@ -131,9 +121,7 @@ extension ViewController: WebSocketDelegate {
             print("Received data: \(data.count)")
         case .ping(_):
             print("ping")
-            socket.write(string: "pong") {
-                print("sended pong.")
-            }
+            socket.write(string: "pong") { print("sended pong.") }
             break
         case .pong(_):
             print("pong")
@@ -163,31 +151,13 @@ extension ViewController: WebSocketDelegate {
         }
     }
     
-    func decoderBookTicker(data: Data, handler: @escaping (_ booktickerstream: BookTickerStream?, _ error: NSError?) -> Void) {
-        let model = try? JSONDecoder().decode(BookTickerStream.self, from: data)
-        handler(model, nil)
-    }
-    
-    func decoderTrade(data: Data, handler: @escaping (_ tradestream: TradeStream?, _ error: NSError?) -> Void) {
-        let model = try? JSONDecoder().decode(TradeStream.self, from: data)
-        handler(model, nil)
-    }
-    
-    func decoderDepth(data: Data, handler: @escaping (_ depthstream: DepthStream?, _ error: NSError?) -> Void) {
-        let model = try? JSONDecoder().decode(DepthStream.self, from: data)
-        handler(model, nil)
-    }
-    
     @objc func postNotification(timer: Timer) {
-        if (timer.userInfo as! String) == KSBookTickerUpdateNotificationKey { self.child_1?.books = self.books
-            NotificationCenter.default.post(name: Notification.Name(rawValue: KSBookTickerUpdateNotificationKey), object: nil)
+        if (timer.userInfo as! String) == KSBookTickerUpdateNotificationKey {
+            self.child_1?.books = self.books
+            PAPUtility.postNotificationWithKey(key: KSBookTickerUpdateNotificationKey)
         } else {
-            NotificationCenter.default.post(name: Notification.Name(rawValue: KSTradeUpdateNotificationKey), object: nil)
+            PAPUtility.postNotificationWithKey(key: KSTradeUpdateNotificationKey)
         }
-    }
-    
-    func postNotificationWithKey(key: String) {
-        NotificationCenter.default.post(name: Notification.Name(rawValue: key), object: nil)
     }
 }
 
@@ -198,11 +168,13 @@ extension ViewController: CAPSPageMenuDelegate {
         // Array to keep track of controllers in page menu
         var controllerArray : [UIViewController] = []
         let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
-        self.child_1 = storyboard.instantiateViewController(withIdentifier: "OrderBookTableViewController") as? OrderBookTableViewController
+        self.child_1 = storyboard.instantiateViewController(withIdentifier:
+            "OrderBookTableViewController") as? OrderBookTableViewController
         self.child_1!.title = "Order Book"
         self.child_1?.exchangeInfo = self.exchangeInfo
         controllerArray.append(self.child_1!)
-        self.child_2 = storyboard.instantiateViewController(withIdentifier: "MarketHistoryTableViewController") as? MarketHistoryTableViewController
+        self.child_2 = storyboard.instantiateViewController(withIdentifier:
+            "MarketHistoryTableViewController") as? MarketHistoryTableViewController
         self.child_2!.title = "Market History"
         controllerArray.append(self.child_2!)
 
@@ -233,11 +205,10 @@ extension ViewController: CAPSPageMenuDelegate {
     }
     
     func willMoveToPage(_ controller: UIViewController, index: Int) {
-        self.postNotificationWithKey(key: KSWillMoveToPageNotificationKey)
+        PAPUtility.postNotificationWithKey(key: KSWillMoveToPageNotificationKey)
     }
     
     func didMoveToPage(_ controller: UIViewController, index: Int) {
-        self.postNotificationWithKey(key: KSDidMoveToPageNotificationKey)
+        PAPUtility.postNotificationWithKey(key: KSDidMoveToPageNotificationKey)
     }
 }
-

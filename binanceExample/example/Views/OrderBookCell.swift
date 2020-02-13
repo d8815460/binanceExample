@@ -15,9 +15,7 @@ class OrderBookCell: UITableViewCell {
     var minTickSize:Int = 0
     var bids:[String]? {
         didSet {
-            guard let bids = bids else {
-                return
-            }
+            guard let bids = bids else { return }
             if bids.count > 0 {
                 self.bidLabels[0].text = NSString(format: "%.6f", (bids[1] as NSString).floatValue) as String
                 self.bidLabels[1].text = NSString(format: "%.\(minTickSize)f" as NSString, (bids[0] as NSString).floatValue) as String
@@ -27,9 +25,7 @@ class OrderBookCell: UITableViewCell {
     
     var asks:[String]? {
         didSet {
-            guard let asks = asks else {
-                return
-            }
+            guard let asks = asks else { return }
             if asks.count > 0 {
                 self.askLabels[0].text = NSString(format: "%.6f", (asks[1] as NSString).floatValue) as String
                 self.askLabels[1].text = NSString(format: "%.\(minTickSize)f" as NSString, (asks[0] as NSString).floatValue) as String

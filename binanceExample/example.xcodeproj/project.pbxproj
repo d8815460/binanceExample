@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4725830823F4FE79007799A5 /* PAPUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4725830723F4FE79007799A5 /* PAPUtility.swift */; };
 		4753A06A23F12E86005289E5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4753A06923F12E86005289E5 /* AppDelegate.swift */; };
 		4753A06E23F12E86005289E5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4753A06D23F12E86005289E5 /* ViewController.swift */; };
 		4753A07123F12E86005289E5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4753A06F23F12E86005289E5 /* Main.storyboard */; };
@@ -69,6 +70,7 @@
 
 /* Begin PBXFileReference section */
 		12AB9683AFCC1CF650A1F89B /* Pods-example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-example.debug.xcconfig"; path = "Target Support Files/Pods-example/Pods-example.debug.xcconfig"; sourceTree = "<group>"; };
+		4725830723F4FE79007799A5 /* PAPUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PAPUtility.swift; sourceTree = "<group>"; };
 		4753A06623F12E86005289E5 /* example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4753A06923F12E86005289E5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4753A06D23F12E86005289E5 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -220,6 +222,7 @@
 				4753A0E223F26CDD005289E5 /* BinanceAPI.swift */,
 				4753A0D923F24A56005289E5 /* PAPConstants.swift */,
 				4753A0E423F273BC005289E5 /* PAPCache.swift */,
+				4725830723F4FE79007799A5 /* PAPUtility.swift */,
 				4753A0CD23F2437C005289E5 /* UIColor+BinanceColor.swift */,
 				4753A0CF23F2445B005289E5 /* String+BinanceString.swift */,
 				4753A0D123F24491005289E5 /* Dictionary+BinanceDictionary.swift */,
@@ -427,6 +430,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4725830823F4FE79007799A5 /* PAPUtility.swift in Sources */,
 				4753A0D223F24491005289E5 /* Dictionary+BinanceDictionary.swift in Sources */,
 				4753A06E23F12E86005289E5 /* ViewController.swift in Sources */,
 				477F5C7023F3722800DADD67 /* Debouncer.swift in Sources */,

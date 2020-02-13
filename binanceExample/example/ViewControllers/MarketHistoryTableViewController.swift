@@ -93,8 +93,6 @@ class MarketHistoryTableViewController: UITableViewController {
                 cell.priceLabel.textColor = UIColor.red
             }
         }
-        
         return cell
     }
-
 }
