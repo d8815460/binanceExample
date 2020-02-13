@@ -22,15 +22,16 @@ class OrderBookTableViewController: UITableViewController, OrderBookHeaderCellDe
     override func viewDidLoad() {
         super.viewDidLoad()
         self.headerView.delegate = self
+        
+        //------------------------------------- Get Depth Start -------------------------------
         BinanceAPI.sharedInstance.getDepth(limit: 20, symbol: KSSymbolKey) { (depthJson, error) in
             if error == nil {
                 self.depthJson = depthJson
                 self.tableView.reloadData()
                 self.tableView.layoutIfNeeded()
-            } else {
-                print("error: \(error?.localizedDescription ?? "error")")
-            }
+            } else { print("error: \(error?.localizedDescription ?? "error")") }
         }
+        //------------------------------------- Get Depth End ---------------------------------
     }
     
     override func viewWillAppear(_ animated: Bool) {

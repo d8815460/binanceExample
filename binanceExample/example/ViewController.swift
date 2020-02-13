@@ -38,7 +38,7 @@ class ViewController: UIViewController {
                                           userInfo: KSBookTickerUpdateNotificationKey,
                                           repeats: true)
         
-        //------------------------------------- WebSocket Start -------------------------------------
+        //------------------------------------- WebSocket Start -----------------------------------
         var request = URLRequest(url: URL(string:binanceStreamPath)!)
         request.timeoutInterval = 5
         socket = WebSocket(request: request)
@@ -46,12 +46,12 @@ class ViewController: UIViewController {
         socket.connect()
         //------------------------------------- WebSocket End -------------------------------------
         
-        //------------------------------------- Exchange Info Start -------------------------------------
+        //------------------------------------- Exchange Info Start -------------------------------
         BinanceAPI.sharedInstance.getExchangeInfo(symbol: KSSymbolKey) { (exchangeInfo, error) in
             self.exchangeInfo = exchangeInfo
             self.setupPageMenu()
         }
-        //------------------------------------- Exchange Info End -------------------------------------
+        //------------------------------------- Exchange Info End ---------------------------------
     }
     
     // MARK: Notification
