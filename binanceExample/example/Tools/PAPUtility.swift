@@ -27,4 +27,16 @@ class PAPUtility: NSObject {
     class func postNotificationWithKey(key: String) {
         NotificationCenter.default.post(name: Notification.Name(rawValue: key), object: nil)
     }
+    
+    // 計算小數點位數
+    class func decimalPlace(minTickSize: String) -> Int {
+        let array = minTickSize.components(separatedBy: ".")
+        var count = 1
+        for character in array[1] {
+            if character != "1" {
+                count = count + 1
+            }
+        }
+        return count
+    }
 }

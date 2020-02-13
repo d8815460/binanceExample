@@ -68,7 +68,7 @@ class OrderBookTableViewController: UITableViewController, OrderBookHeaderCellDe
 
     @IBAction func didTickSizeButtonPressed(_ sender: Any) {
         var array:[String] = [String]()
-        let count = self.decimalPlace(minTickSize: (self.exchangeInfo?.data[0].minTickSize)!)
+        let count = PAPUtility.decimalPlace(minTickSize: (self.exchangeInfo?.data[0].minTickSize)!)
         
         for size in 0...count {
             let sizeString = NSString(format: "%i", size)
@@ -118,22 +118,11 @@ class OrderBookTableViewController: UITableViewController, OrderBookHeaderCellDe
                 cell.minTickSize = self.currentSize!
             } else {
                 self.minTickSize = (self.exchangeInfo?.data[0].minTickSize)!
-                self.currentSize = self.decimalPlace(minTickSize: self.minTickSize)
+                self.currentSize = PAPUtility.decimalPlace(minTickSize: self.minTickSize)
                 cell.minTickSize = self.currentSize!
             }
         }
         
         return cell
-    }
-    
-    func decimalPlace(minTickSize: String) -> Int {
-        let array = minTickSize.components(separatedBy: ".")
-        var count = 1
-        for character in array[1] {
-            if character != "1" {
-                count = count + 1
-            }
-        }
-        return count
     }
 }
