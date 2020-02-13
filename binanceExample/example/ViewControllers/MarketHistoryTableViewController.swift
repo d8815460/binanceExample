@@ -16,6 +16,7 @@ class MarketHistoryTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //------------------------------------- Get AggTrades Start -------------------------------
         BinanceAPI.sharedInstance.getAggTrades(limit: 20, symbol: KSSymbolKey) { (aggTrades, error) in
             self.aggTrades = aggTrades
             for aggTrade in aggTrades! {
@@ -25,6 +26,7 @@ class MarketHistoryTableViewController: UITableViewController {
                 self.tableView.layoutIfNeeded()
             }
         }
+        //------------------------------------- Get AggTrades End ---------------------------------
     }
     
     override func viewWillAppear(_ animated: Bool) {
