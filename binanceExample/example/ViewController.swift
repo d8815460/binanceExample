@@ -104,6 +104,7 @@ extension ViewController: WebSocketDelegate {
             print("websocket is disconnected: \(reason) with code: \(code)")
         case .text(let string):
             let valuse = try? string.asJSONToDictionary()
+            if valuse!.keys.contains("error") { return }
             switch (valuse!["stream"]) as! String {
             case "btcusdt@bookTicker":
                 try? self.decoderBookTicker(data: (valuse?.toData())!) { (bookTickers, error) in
