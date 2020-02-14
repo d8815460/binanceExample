@@ -53,33 +53,6 @@ class ViewController: UIViewController {
         }
         //------------------------------------- Exchange Info End ---------------------------------
     }
-    
-    // MARK: Notification
-    
-    @objc func handleNotification(_ notification: Notification) {
-        switch notification.name.rawValue {
-        case KSDidEnterBackgroundNotificationKey :
-            socket.disconnect()
-            break
-        case KSWillEnterForegroundNotificationKey :
-            socket.connect()
-            break
-        case KSReachabilityConnectedNotificationKey :
-            socket.connect()
-            break
-        case KSReachabilityDisConnectedNotificationKey :
-            socket.disconnect()
-            break
-        case KSDidMoveToPageNotificationKey :
-            socket.connect()
-            break
-        case KSWillMoveToPageNotificationKey :
-            socket.disconnect()
-            break
-        default:
-        break
-        }
-    }
 }
 
 extension ViewController: WebSocketDelegate {
@@ -148,6 +121,33 @@ extension ViewController: WebSocketDelegate {
             print("websocket encountered an error: \(e.localizedDescription)")
         } else {
             print("websocket encountered an error")
+        }
+    }
+    
+    // MARK: Notification
+    
+    @objc func handleNotification(_ notification: Notification) {
+        switch notification.name.rawValue {
+        case KSDidEnterBackgroundNotificationKey :
+            socket.disconnect()
+            break
+        case KSWillEnterForegroundNotificationKey :
+            socket.connect()
+            break
+        case KSReachabilityConnectedNotificationKey :
+            socket.connect()
+            break
+        case KSReachabilityDisConnectedNotificationKey :
+            socket.disconnect()
+            break
+        case KSDidMoveToPageNotificationKey :
+            socket.connect()
+            break
+        case KSWillMoveToPageNotificationKey :
+            socket.disconnect()
+            break
+        default:
+        break
         }
     }
     
